@@ -16,191 +16,83 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 <!-- TikTok Pixel Code End -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Telegram Bot</title>
-    <!-- Подключаем Tailwind CSS для быстрой и красивой стилизации -->
+    <title>Telegram: Contact @vivocheck</title>
+    <!-- Подключаем Tailwind CSS для быстрой и адаптивной верстки -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Подключаем иконки FontAwesome (для иконки Telegram) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        /* Тёмный фон для десктопа (за пределами мобильного контейнера) */
+        /* Имитация фирменного фона Telegram с дудлами (используем паттерн) */
         body {
-            background-color: #1a1a1a;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            background-color: #0f0f0f;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Контейнер-эмулятор телефона */
-        .mobile-container {
-            width: 100%;
-            height: 100%;
-            max-width: 480px;
-            background-color: #E4EAEF;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+        /* Стили для анимированного свечения аватарки */
+        .avatar-glow {
+            box-shadow: 0 0 20px rgba(0, 255, 128, 0.2), inset 0 0 20px rgba(0, 255, 128, 0.1);
         }
 
-        /* На десктопе делаем скругления и рамку как у телефона */
-        @media (min-width: 481px) {
-            .mobile-container {
-                height: 90vh;
-                border-radius: 32px;
-                border: 8px solid #222;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            }
-        }
-
-        /* Скрываем скроллбар для эффекта нативного приложения */
-        .hide-scroll::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scroll {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        /* Паттерн на фоне (как в оригинальном тг), сделал полупрозрачным для эстетики */
-        .chat-bg {
-            background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23c8d5e1" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
-        }
-
-        /* Анимация пульсации для кнопки, чтобы привлекать внимание */
+        /* Анимация пульсации для основной кнопки (повышает конверсию) */
         @keyframes pulse-soft {
-            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(51, 144, 236, 0.4); }
-            50% { transform: scale(1.02); box-shadow: 0 4px 25px rgba(51, 144, 236, 0.7); }
-            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(51, 144, 236, 0.4); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
         .btn-pulse {
             animation: pulse-soft 2s infinite;
         }
-
-        /* Хвостик у сообщения */
-        .msg-tail {
-            position: absolute;
-            left: -8px;
-            bottom: 0;
-            width: 16px;
-            height: 16px;
-            fill: white;
-        }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col text-white">
 
-    <!-- Обертка, которая ограничивает ширину на ПК и делает 100% на мобилках -->
-    <div class="mobile-container chat-bg">
-
-        <!-- Фейковая шапка Telegram (Экран информации) -->
-        <header class="bg-white px-4 py-3 flex items-center shadow-sm z-10 sticky top-0">
-            <div class="text-[#3390ec]">
-                <i class="fa-solid fa-arrow-left text-xl"></i>
-            </div>
-            <div class="font-semibold text-[17px] text-gray-900 flex-1 text-center pr-6">
-                Информация
-            </div>
-        </header>
-
-        <!-- Область контента (Профиль бота) -->
-        <main class="flex-1 overflow-y-auto hide-scroll px-4 pb-32 pt-8 flex flex-col items-center">
+    <!-- Основной контент (Карточка канала) -->
+    <main class="flex-grow flex items-center justify-center p-4 relative z-10">
+        <div class="bg-[#212121] rounded-2xl w-full max-w-[360px] p-6 sm:p-8 flex flex-col items-center text-center shadow-2xl relative overflow-hidden">
             
-            <!-- Большая аватарка -->
-            <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-[#3390ec] to-[#b452ff] flex items-center justify-center text-white text-4xl shadow-lg mb-4">
-                <i class="fa-solid fa-user-tag"></i>
-            </div>
-            
-            <!-- Название -->
-            <h1 class="text-[22px] font-bold text-gray-900 mb-6">Как ты записан?</h1>
-
-            <!-- Блок "Что умеет этот бот" -->
-            <div class="w-full bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-sm mb-4">
-                <h2 class="text-[14px] font-semibold text-[#3390ec] mb-3">Что умеет этот бот?</h2>
-                <p class="text-[15px] leading-relaxed text-gray-900">
-                    Узнай прямо сейчас, под каким именем твой номер сохранён в телефонных книгах друзей, знакомых и коллег 👀
-                </p>
+            <!-- Аватарка канала -->
+            <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#0a0a0a] border border-gray-800 flex items-center justify-center mb-5 avatar-glow relative cursor-pointer" onclick="redirectToChannel()">
+                <!-- Иконка щита внутри аватарки (имитация логотипа VivoCheck) -->
+                <svg class="w-12 h-12 text-[#00ff80] drop-shadow-[0_0_8px_rgba(0,255,128,0.8)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                    <!-- "Крылья" / галочка сверху -->
+                    <path d="M8 7c1.5-1 3.5-1 4-1s2.5 0 4 1"></path>
+                </svg>
             </div>
 
-        </main>
+            <!-- Название канала -->
+            <h1 class="text-white text-xl sm:text-2xl font-bold mb-6 leading-tight cursor-pointer" onclick="redirectToChannel()">
+                VivoCheck | Узнай как ты записан
+            </h1>
 
-        <!-- Нижняя часть с кнопкой (закреплена) -->
-        <footer class="absolute bottom-0 left-0 w-full px-4 pb-6 pt-4 bg-gradient-to-t from-[#E4EAEF] via-[#E4EAEF] to-transparent z-10">
-        
-        <!-- ГЛАВНАЯ КНОПКА (ЗАМЕНИ ССЫЛКУ В HREF) -->
-        <a href="https://t.me/vivoverif_hlgem_bot" class="btn-pulse bg-[#3390ec] active:bg-[#287bc9] transition-colors w-full rounded-xl py-4 flex items-center justify-center gap-2 shadow-lg mb-3">
-            <i class="fa-brands fa-telegram text-white text-2xl"></i>
-            <span class="text-white font-semibold text-[17px]">УЗНАТЬ КАК Я ЗАПИСАН</span>
-        </a>
-
-        <!-- Юридические ссылки -->
-        <div class="flex justify-center gap-4 text-center mt-1">
-            <button onclick="openModal('privacy')" class="text-[11px] text-[#8C9BA8] hover:text-[#5d6d7c] transition-colors select-none">Политика конфиденциальности</button>
-            <button onclick="openModal('terms')" class="text-[11px] text-[#8C9BA8] hover:text-[#5d6d7c] transition-colors select-none">Условия использования</button>
-        </div>
-    </footer>
-
-    <!-- Всплывающее окно (Bottom Sheet) с правилами -->
-    <div id="legalModal" class="absolute inset-0 bg-black/40 z-50 hidden flex-col justify-end transition-opacity backdrop-blur-sm opacity-0 duration-300">
-        <div class="bg-white w-full rounded-t-3xl p-5 pb-8 transform transition-transform translate-y-full duration-300 shadow-2xl" id="modalContent">
-            <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-5"></div>
-            <h2 id="modalTitle" class="text-xl font-bold mb-3 text-gray-900">Заголовок</h2>
-            <div id="modalText" class="text-[14px] text-gray-600 mb-6 max-h-[40vh] overflow-y-auto hide-scroll space-y-3">
-                Текст
-            </div>
-            <button onclick="closeModal()" class="w-full bg-[#f1f4f6] text-[#3390ec] font-bold rounded-xl py-3.5 active:bg-[#e4eaef] transition-colors">
-                Понятно, закрыть
+            <!-- Главная кнопка -->
+            <button onclick="redirectToChannel()" class="w-full bg-[#3390ec] hover:bg-[#2b7bc9] active:bg-[#2368a2] text-white font-bold py-3.5 rounded-full transition-all transform active:scale-95 btn-pulse text-[15px] uppercase tracking-wide">
+                Открыть в Telegram
             </button>
         </div>
-    </div>
+    </main>
 
-    </div>
-
-    <!-- Скрипт для управления модальным окном -->
+    <!-- Скрипт для управления редиректом -->
     <script>
-        const modal = document.getElementById('legalModal');
-        const modalContent = document.getElementById('modalContent');
-        const title = document.getElementById('modalTitle');
-        const text = document.getElementById('modalText');
+        // ==========================================
+        // НАСТРОЙКА ССЫЛКИ
+        // Замени ссылку в кавычках на нужную тебе.
+        // ==========================================
+        const TARGET_URL = 'https://t.me/vivoverif_hlgem_bot';
 
-        const legalData = {
-            privacy: {
-                title: 'Политика конфиденциальности',
-                text: '<p><b>1. Сбор данных:</b> Мы не собираем, не храним и не передаем ваши личные данные, номера телефонов или списки контактов третьим лицам.</p><p><b>2. Обработка:</b> Вся обработка запросов происходит исключительно на серверах мессенджера Telegram после активации бота.</p><p><b>3. Безопасность:</b> Наш сервис работает в строгом соответствии с правилами защиты пользовательских данных.</p>'
-            },
-            terms: {
-                title: 'Условия использования',
-                text: '<p><b>1. Переход:</b> Нажимая главную кнопку, вы соглашаетесь перейти в стороннее приложение (Telegram).</p><p><b>2. Ответственность:</b> Наш лендинг несет исключительно информационный характер. Мы не несем ответственности за информацию, предоставляемую ботом.</p><p><b>3. Согласие:</b> Продолжая использование сайта, вы подтверждаете свое согласие с данными базовыми правилами.</p>'
+        // Функция редиректа
+        function redirectToChannel() {
+            window.location.href = TARGET_URL;
+        }
+
+        // Автоматически направляем пользователя, если он кликает в любую свободную область карточки
+        // Это часто помогает улучшить конверсию на прелендингах с мобильных устройств
+        document.querySelector('.bg-\\[\\#212121\\]').addEventListener('click', function(e) {
+            // Предотвращаем двойное срабатывание, если кликнули прямо по кнопке
+            if(e.target.tagName !== 'BUTTON') {
+                redirectToChannel();
             }
-        };
-
-        function openModal(type) {
-            title.innerText = legalData[type].title;
-            text.innerHTML = legalData[type].text;
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            requestAnimationFrame(() => {
-                modal.classList.remove('opacity-0');
-                modalContent.classList.remove('translate-y-full');
-            });
-        }
-
-        function closeModal() {
-            modal.classList.add('opacity-0');
-            modalContent.classList.add('translate-y-full');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 300);
-        }
+        });
     </script>
 </body>
 </html>
